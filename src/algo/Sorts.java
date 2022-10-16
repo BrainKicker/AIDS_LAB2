@@ -1,7 +1,6 @@
 package algo;
 
 import containers.ArrayList;
-import containers.List;
 import containers.Pair;
 
 import java.util.Comparator;
@@ -39,180 +38,179 @@ public final class Sorts {
     }
 
 
-    /**
-     * Standard sorting for a list.
-     * Sorting with <a href="https://en.wikipedia.org/wiki/Timsort">Timsort</a> as default.
-     */
-    public static <T> void sort(List<T> list, Comparator<? super T> comparator) {
-        sort(list, comparator, SortingType.DEFAULT);
+    public static <T> void sort(T[] array, Comparator<? super T> comparator) {
+        sort(array, 0, array.length, comparator);
     }
 
-    /**
-     * Standard sorting for a list.
-     * Sorting with <a href="https://en.wikipedia.org/wiki/Timsort">Timsort</a> as default.
-     * Sorting from start inclusive to end exclusive: [start, end).
-     */
-    public static <T> void sort(List<T> list, int start, int end, Comparator<? super T> comparator) {
-        sort(list, start, end, comparator, SortingType.DEFAULT);
+    public static <T> void sort(T[] array, int start, int end, Comparator<? super T> comparator) {
+        sort(array, start, end, comparator, SortingType.DEFAULT);
     }
 
-    public static <T> void sort(List<T> list, Comparator<? super T> comparator, SortingType sortingType) {
-        sort(list, 0, list.size(), comparator, sortingType);
+    public static <T> void sort(T[] array, Comparator<? super T> comparator, SortingType sortingType) {
+        sort(array, 0, array.length, comparator, sortingType);
     }
 
-    public static <T> void sort(List<T> list, int start, int end, Comparator<? super T> comparator, SortingType sortingType) {
+    public static <T> void sort(T[] array, int start, int end, Comparator<? super T> comparator, SortingType sortingType) {
         if (sortingType == SortingType.DEFAULT)
             sortingType = SortingType.getCurrentDefault();
         switch (sortingType) {
-            case TIMSORT -> timsort(list, start, end, comparator);
-            case QUICK_SORT -> quickSort(list, start, end, comparator);
-            case HEAP_SORT -> heapSort(list, start, end, comparator);
-            case MERGE_SORT -> mergeSort(list, start, end, comparator);
-            case INSERTION_SORT -> insertionSort(list, start, end, comparator);
-            case SELECTION_SORT -> selectionSort(list, start, end, comparator);
-            case BUBBLE_SORT -> bubbleSort(list, start, end, comparator);
+            case TIMSORT -> timsort(array, start, end, comparator);
+            case QUICK_SORT -> quickSort(array, start, end, comparator);
+            case HEAP_SORT -> heapSort(array, start, end, comparator);
+            case MERGE_SORT -> mergeSort(array, start, end, comparator);
+            case INSERTION_SORT -> insertionSort(array, start, end, comparator);
+            case SELECTION_SORT -> selectionSort(array, start, end, comparator);
+            case BUBBLE_SORT -> bubbleSort(array, start, end, comparator);
             case DEFAULT -> throw new RuntimeException();
         }
     }
 
 
-    public static <T> void selectionSort(List<T> list, Comparator<? super T> comparator) {
-        selectionSort(list, 0, list.size(), comparator);
+    public static <T> void selectionSort(T[] array, Comparator<? super T> comparator) {
+        selectionSort(array, 0, array.length, comparator);
     }
 
-    public static <T> void selectionSort(List<T> list, int start, int end, Comparator<? super T> comparator) {
+    public static <T> void selectionSort(T[] array, int start, int end, Comparator<? super T> comparator) {
         for (int i = start; i < end; i++) {
             int minIndex = i;
-            T min = list.get(i);
+            T min = array[i];
             for (int j = i + 1; j < end; j++) {
-                T cur = list.get(j);
+                T cur = array[j];
                 if (comparator.compare(cur, min) < 0) {
                     minIndex = j;
                     min = cur;
                 }
             }
-            T tmp = list.get(i);
-            list.set(i, list.get(minIndex));
-            list.set(minIndex, tmp);
+            T tmp = array[i];
+            array[i] = array[minIndex];
+            array[minIndex] = tmp;
         }
     }
 
 
-    public static <T> void bubbleSort(List<T> list, Comparator<? super T> comparator) {
-        bubbleSort(list, 0, list.size(), comparator);
+    public static <T> void bubbleSort(T[] array, Comparator<? super T> comparator) {
+        bubbleSort(array, 0, array.length, comparator);
     }
 
-    public static <T> void bubbleSort(List<T> list, int start, int end, Comparator<? super T> comparator) {
+    public static <T> void bubbleSort(T[] array, int start, int end, Comparator<? super T> comparator) {
         for (int i = end - 1; i > start; i--) {
             for (int j = start; j < i; j++) {
-                if (comparator.compare(list.get(j), list.get(j + 1)) > 0) {
-                    T tmp = list.get(j);
-                    list.set(j, list.get(j + 1));
-                    list.set(j + 1, tmp);
+                if (comparator.compare(array[j], array[j+1]) > 0) {
+                    T tmp = array[j];
+                    array[j] = array[j+1];
+                    array[j+1] = tmp;
                 }
             }
         }
     }
 
 
-    public static <T> void insertionSort(List<T> list, Comparator<? super T> comparator) {
-        insertionSort(list, 0, list.size(), comparator);
+    public static <T> void insertionSort(T[] array, Comparator<? super T> comparator) {
+        insertionSort(array, 0, array.length, comparator);
     }
 
-    public static <T> void insertionSort(List<T> list, int start, int end, Comparator<? super T> comparator) {
+    public static <T> void insertionSort(T[] array, int start, int end, Comparator<? super T> comparator) {
         for (int i = start + 1; i < end; i++) {
-            for (int j = i; j > 0; j--) {
-                if (comparator.compare(list.get(j), list.get(j - 1)) < 0) {
-                    T tmp = list.get(j);
-                    list.set(j, list.get(j - 1));
-                    list.set(j - 1, tmp);
+            for (int j = i; j > start; j--) {
+                if (comparator.compare(array[j], array[j-1]) < 0) {
+                    T tmp = array[j];
+                    array[j] = array[j-1];
+                    array[j-1] = tmp;
                 }
             }
         }
     }
 
 
-    public static <T> void mergeSort(List<T> list, Comparator<? super T> comparator) {
-        mergeSort(list, 0, list.size(), comparator);
+    public static <T> void mergeSort(T[] array, Comparator<? super T> comparator) {
+        mergeSort(array, 0, array.length, comparator);
     }
 
     @SuppressWarnings("unchecked")
-    public static <T> void mergeSort(List<T> list, int start, int end, Comparator<? super T> comparator) {
+    public static <T> void mergeSort(T[] array, int start, int end, Comparator<? super T> comparator) {
         if (end - start <= 1)
             return;
         if (end - start == 2) {
-            if (comparator.compare(list.get(start), list.get(start + 1)) > 0) {
-                T tmp = list.get(start);
-                list.set(start, list.get(start + 1));
-                list.set(start + 1, tmp);
+            if (comparator.compare(array[start], array[start+1]) > 0) {
+                T tmp = array[start];
+                array[start] = array[start+1];
+                array[start+1] = tmp;
             }
         } else {
             int mid = start + ((end - start) >> 1);
-            mergeSort(list, start, mid, comparator);
-            mergeSort(list, mid, end, comparator);
+            mergeSort(array, start, mid, comparator);
+            mergeSort(array, mid, end, comparator);
             int i = 0, i1 = start, i2 = mid;
             Object[] buffer = new Object[end-start];
             while (i1 < mid && i2 < end)
-                if (comparator.compare(list.get(i1), list.get(i2)) > 0)
-                    buffer[i++] = list.get(i2++);
+                if (comparator.compare(array[i1], array[i2]) > 0)
+                    buffer[i++] = array[i2++];
                 else
-                    buffer[i++] = list.get(i1++);
+                    buffer[i++] = array[i1++];
             while (i1 < mid)
-                buffer[i++] = list.get(i1++);
+                buffer[i++] = array[i1++];
             while (i2 < end)
-                buffer[i++] = list.get(i2++);
+                buffer[i++] = array[i2++];
             for (int j = start; j < end; ++j)
-                list.set(j, (T) buffer[j-start]);
+                array[j] = (T) buffer[j-start];
         }
     }
 
 
-    public static <T> void quickSort(List<T> list, Comparator<? super T> comparator) {
-        quickSort(list, 0, list.size(), comparator);
+    public static <T> void quickSort(T[] array, Comparator<? super T> comparator) {
+        quickSort(array, 0, array.length, comparator);
     }
 
-    public static <T> void quickSort(List<T> list, int start, int end, Comparator<? super T> comparator) {
+    public static <T> void quickSort(T[] array, int start, int end, Comparator<? super T> comparator) {
 
         if (end - start <= 1)
             return;
 
         int mid = start + ((end - start) >> 1);
 
-        T pivot = list.get(mid);
+        T pivot = array[mid];
 
         // swapping pivot with last
-        list.set(mid, list.get(end - 1));
-        list.set(end - 1, pivot);
+        array[mid] =  array[end-1];
+        array[end-1] = pivot;
 
         int lastMin = start - 1;
         for (int i = start; i < end - 1; i++) {
-            if (comparator.compare(list.get(i), pivot) < 0) {
+            if (comparator.compare(array[i], pivot) < 0) {
                 ++lastMin;
-                T tmp = list.get(lastMin);
-                list.set(lastMin, list.get(i));
-                list.set(i, tmp);
+                T tmp = array[lastMin];
+                array[lastMin] = array[i];
+                array[i] = tmp;
             }
         }
         ++lastMin;
         // swapping pivot with first greater
-        list.set(end - 1, list.get(lastMin));
-        list.set(lastMin, pivot);
+        array[end-1] = array[lastMin];
+        array[lastMin] = pivot;
 
         // recursion
-        quickSort(list, start, lastMin, comparator);
-        quickSort(list, lastMin + 1, end, comparator);
+        quickSort(array, start, lastMin, comparator);
+        quickSort(array, lastMin + 1, end, comparator);
     }
 
 
-    public static <T> void heapSort(List<T> list, Comparator<? super T> comparator) {
-        heapSort(list, 0, list.size(), comparator);
+    public static <T> void heapSort(T[] array, Comparator<? super T> comparator) {
+        heapSort(array, 0, array.length, comparator);
     }
 
-    public static <T> void heapSort(List<T> list, int start, int end, Comparator<? super T> comparator) {
+    public static <T> void heapSort(T[] array, int start, int end, Comparator<? super T> comparator) {
 
         class HeapSortClass {
 
             int size = end - start;
+
+            T get(int index) {
+                return array[start+index];
+            }
+
+            void set(int index, T t) {
+                array[start+index] = t;
+            }
 
             void correctDown(int i) {
                 int ch1 = 2 * i + 1;
@@ -221,16 +219,16 @@ public final class Sorts {
                 int ch2 = ch1 + 1;
                 if (ch2 == size)
                     ch2 = ch1;
-                if (comparator.compare(list.get(ch1), list.get(i)) > 0
-                        || comparator.compare(list.get(ch2), list.get(i)) > 0) {
+                if (comparator.compare(get(ch1), get(i)) > 0
+                        || comparator.compare(get(ch2), get(i)) > 0) {
                     int maxChild;
-                    if (comparator.compare(list.get(ch1), list.get(ch2)) > 0)
+                    if (comparator.compare(get(ch1), get(ch2)) > 0)
                         maxChild = ch1;
                     else
                         maxChild = ch2;
-                    T tmp = list.get(i);
-                    list.set(i, list.get(maxChild));
-                    list.set(maxChild, tmp);
+                    T tmp = get(i);
+                    set(i, get(maxChild));
+                    set(maxChild, tmp);
                     correctDown(maxChild);
                 }
             }
@@ -239,22 +237,22 @@ public final class Sorts {
                 if (i <= 0)
                     return;
                 int p = (i - 1) >> 1;
-                if (comparator.compare(list.get(i), list.get(p)) > 0) {
-                    T tmp = list.get(i);
-                    list.set(i, list.get(p));
-                    list.set(p, tmp);
+                if (comparator.compare(get(i), get(p)) > 0) {
+                    T tmp = get(i);
+                    set(i, get(p));
+                    set(p, tmp);
                     correctUp(p);
                 }
             }
 
             void sort() {
-                for (int i = end - 1; i >= start; i--)
+                for (int i = size - 1; i > 0; i--)
                     correctUp(i);
 
                 while (size-- > 0) {
-                    T tmp = list.get(start);
-                    list.set(start, list.get(size));
-                    list.set(size, tmp);
+                    T tmp = get(0);
+                    set(0, get(size));
+                    set(size, tmp);
                     correctDown(0);
                 }
             }
@@ -265,17 +263,17 @@ public final class Sorts {
 
 
     /**
-     * <a href="https://en.wikipedia.org/wiki/Timsort">Timsort</a> for a list.
+     * <a href="https://en.wikipedia.org/wiki/Timsort">Timsort</a> for a array.
      */
-    public static <T> void timsort(List<T> list, Comparator<? super T> comparator) {
-        timsort(list, 0, list.size(), comparator);
+    public static <T> void timsort(T[] array, Comparator<? super T> comparator) {
+        timsort(array, 0, array.length, comparator);
     }
 
     /**
-     * <a href="https://en.wikipedia.org/wiki/Timsort">Timsort</a> for a list from start inclusive to end exclusive: [start, end).
+     * <a href="https://en.wikipedia.org/wiki/Timsort">Timsort</a> for a array from start inclusive to end exclusive: [start, end).
      */
     @SuppressWarnings("unchecked")
-    public static <T> void timsort(List<T> list, int start, int end, Comparator<? super T> comparator) {
+    public static <T> void timsort(T[] array, int start, int end, Comparator<? super T> comparator) {
 
         if (end - start <= 1) // (*)
             return;
@@ -299,72 +297,66 @@ public final class Sorts {
 
                 Object[] tmpArr = new Object[mid - start];
 
-                for (int i = 0; i < tmpArr.length; i++)
-                    tmpArr[i] = list.get(start + i);
+                System.arraycopy(array, start, tmpArr, 0, tmpArr.length);
 
                 int index = 0;
 
-                int currentGallopCount = 0;
+                int[] currentGallopCount = { 0, 0 };
 
                 while (start < mid && mid < end) {
-                    if (comparator.compare((T) tmpArr[index], list.get(mid)) <= 0) {
-                        list.set(start, (T) tmpArr[index]);
+                    if (comparator.compare((T) tmpArr[index], array[mid]) <= 0) {
+                        array[start] = (T) tmpArr[index];
                         ++index;
-                        ++currentGallopCount;
+                        currentGallopCount[0] += 1;
+                        currentGallopCount[1] = 0;
                     } else {
-                        list.set(start, list.get(mid));
+                        array[start] = array[mid];
                         ++mid;
-                        currentGallopCount = 0;
+                        currentGallopCount[0] = 0;
+                        currentGallopCount[1] += 1;
                     }
                     ++start;
 
-                    if (currentGallopCount == GALLOP_COUNT) {
-                        currentGallopCount = 0;
-
-                        // binary search
-
-                        int maxIndex;
-
-                        int left = start, right = mid;
-
-                        while (right - left > 1) {
-                            int mid1 = left + ((right - left) >> 1);
-                            int diff = comparator.compare(list.get(mid1), list.get(mid));
-                            if (diff <= 0)
-                                left = mid1;
-                            else
-                                right = mid1;
+                    if (currentGallopCount[0] == GALLOP_COUNT || currentGallopCount[1] == GALLOP_COUNT) {
+                        if (currentGallopCount[0] == GALLOP_COUNT) {
+                            int maxIndex = binarySearch(tmpArr, array[mid], index, tmpArr.length);
+                            while (index < maxIndex)
+                                array[start++] = (T) tmpArr[index++];
+                        } else {
+                            int maxIndex = binarySearch(array, (T) tmpArr[index], mid, end);
+                            while (mid < maxIndex)
+                                array[start++] = array[mid++];
                         }
-
-                        if (comparator.compare(list.get(left), list.get(mid)) > 0)
-                            maxIndex = left;
-                        else
-                            maxIndex = right;
-
-                        while (start < maxIndex)
-                            list.set(start++, (T) tmpArr[index++]);
                     }
                 }
 
                 while (start < mid)
-                    list.set(start++, (T) tmpArr[index++]);
+                    array[start++] = (T) tmpArr[index++];
+            }
+
+            <E> int binarySearch(E[] arr, T sample, int left, int right) {
+                while (right - left > 1) {
+                    int mid = left + ((right - left) >> 1);
+                    int diff = comparator.compare((T) arr[mid], sample);
+                    if (diff <= 0)
+                        left = mid;
+                    else
+                        right = mid;
+                }
+                return comparator.compare((T) arr[left], sample) > 0 ? left : right;
             }
         }
 
         TimsortClass timsortClass = new TimsortClass();
 
-        int size = end - start;
-
-        int minrun = timsortClass.calculateMinrun(size);
+        final int minrun = timsortClass.calculateMinrun(end - start);
 
         ArrayList<Pair<Integer,Integer>> indexes = new ArrayList<>();
 
-        int curRunStart = start, curRunEnd = curRunStart + 1;
-
-        while (true) {
+        for(int curRunStart = start, curRunEnd = curRunStart + 2;;) {
 
             // next element (curRunStart + 1) exists (*)
-            boolean increasing = comparator.compare(list.get(curRunStart), list.get(curRunStart + 1)) <= 0;
+            boolean increasing = comparator.compare(array[curRunStart], array[curRunStart + 1]) <= 0;
 
             Comparator<T> comp
                     = increasing
@@ -373,27 +365,27 @@ public final class Sorts {
                 return /*minus here:*/-comparator.compare(o1, o2) + 1;
             };
 
-            while (curRunEnd < end - 1 && comp.compare(list.get(curRunEnd), list.get(curRunEnd + 1)) <= 0)
+            while (curRunEnd < end && comp.compare(array[curRunEnd - 1], array[curRunEnd]) <= 0)
                 ++curRunEnd;
-
-            if (curRunEnd < end - 1 && curRunEnd - curRunStart < minrun)
-                curRunEnd = Math.min(curRunStart + minrun, end);
 
             // 'a0 > a1 > ... > an' TO 'an <= an-1 <= ...  <= a0'
             if (!increasing) {
                 int mid = (curRunEnd - curRunStart) >> 1;
-                for (int i = 0; i <= mid; i++) {
-                    T tmp = list.get(curRunStart + i);
-                    list.set(curRunStart + i, list.get(curRunEnd - i - 1));
-                    list.set(curRunEnd - i - 1, tmp);
+                for (int i = 0; i < mid; i++) {
+                    T tmp = array[curRunStart + i];
+                    array[curRunStart+i] = array[curRunEnd-i-1];
+                    array[curRunEnd-i-1] = tmp;
                 }
             }
+
+            if (curRunEnd < end - 1 && curRunEnd - curRunStart < minrun)
+                curRunEnd = Math.min(curRunStart + minrun, end);
 
             // next element existing required at next iteration
             if (curRunEnd + 1 == end) // (*) (**)
                 ++curRunEnd;
 
-            insertionSort(list, curRunStart, curRunEnd, comparator);
+            insertionSort(array, curRunStart, curRunEnd, comparator);
 
             indexes.add(new Pair<>(curRunStart, curRunEnd - curRunStart));
 
@@ -401,14 +393,16 @@ public final class Sorts {
                 Pair<Integer,Integer> Z = indexes.getLast();
                 Pair<Integer,Integer> Y = indexes.get(indexes.size() - 2);
                 Pair<Integer,Integer> X = indexes.get(indexes.size() - 3);
-                if (Z.second > Y.second + X.second || (Y.second > X.second && Z.second < X.second)) {
-                    timsortClass.merge(X.first, Y.first, Y.first + Y.second);
-                    indexes.set(indexes.size() - 3, new Pair<>(X.first, X.second + Y.second));
-                    indexes.remove(indexes.size() - 2);
-                } else if (Y.second > X.second) {
-                    timsortClass.merge(Y.first, Z.first, Z.first + Z.second);
-                    indexes.set(indexes.size() - 2, new Pair<>(Y.first, Y.second + Z.second));
-                    indexes.removeLast();
+                if (Z.second <= Y.second + X.second || Y.second <= X.second) {
+                    if (Z.second > X.second) {
+                        timsortClass.merge(X.first, Y.first, Y.first + Y.second);
+                        indexes.set(indexes.size() - 3, new Pair<>(X.first, X.second + Y.second));
+                        indexes.remove(indexes.size() - 2);
+                    } else {
+                        timsortClass.merge(Y.first, Z.first, Z.first + Z.second);
+                        indexes.set(indexes.size() - 2, new Pair<>(Y.first, Y.second + Z.second));
+                        indexes.removeLast();
+                    }
                 }
             }
 
@@ -416,7 +410,7 @@ public final class Sorts {
                 break;
 
             curRunStart = curRunEnd;
-            curRunEnd = curRunStart + 1; // < end because (**)
+            curRunEnd = curRunStart + 2; // <= end because (**)
         }
 
         while (true) {

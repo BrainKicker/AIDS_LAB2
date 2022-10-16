@@ -1,8 +1,5 @@
 package containers;
 
-import algo.Sorts;
-
-import java.util.Comparator;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -23,8 +20,7 @@ public class ForwardList<T> implements List<T> {
 
     @SafeVarargs
     public ForwardList(T... objs) {
-        for (int i = objs.length - 1; i >= 0; i--)
-            addFirst(objs[i]);
+        setData(objs);
     }
 
     public ForwardList(ArrayList<T> arrayList) {
@@ -115,6 +111,14 @@ public class ForwardList<T> implements List<T> {
         }
         return array;
     }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public final void setData(Object[] objs) {
+        for (int i = objs.length - 1; i >= 0; i--)
+            addFirst((T) objs[i]);
+    }
+
 
     @Override
     public String toString() {

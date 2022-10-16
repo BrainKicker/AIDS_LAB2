@@ -2,20 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="570ec12b-bb2d-43d7-af4a-76a6a170c480" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/AIDS_LAB1.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/algo/Sorts.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/ArrayList.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/ForwardList.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/List.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Pair.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/containers/Stack.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/algo/Sorts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/algo/Sorts.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/ArrayList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/ArrayList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/ForwardList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/ForwardList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/containers/List.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/containers/List.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -41,15 +33,15 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "/home/petr/IdeaProjects/AIDS_LAB1/src"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/petr/IdeaProjects/AIDS_LAB1/src&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src" />
@@ -59,19 +51,6 @@
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="AIDS_LAB2" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="AIDS_LAB2" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="AIDS_LAB2" />
-      <option name="filePath" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -92,6 +71,7 @@
       <updated>1665869302614</updated>
       <workItem from="1665869304443" duration="2633000" />
       <workItem from="1665886973343" duration="20945000" />
+      <workItem from="1665932614707" duration="9602000" />
     </task>
     <servers />
   </component>

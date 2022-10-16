@@ -1,5 +1,9 @@
 package containers;
 
+import algo.Sorts;
+
+import java.util.Comparator;
+
 public class ArrayList<T> implements List<T> {
 
 
@@ -51,9 +55,7 @@ public class ArrayList<T> implements List<T> {
     }
 
     public ArrayList(T[] objs) {
-        arr = new Object[objs.length];
-        System.arraycopy(objs, 0, arr, 0, objs.length);
-        size = arr.length;
+        setData(objs);
     }
 
     public ArrayList(ArrayList<T> other) {
@@ -119,10 +121,24 @@ public class ArrayList<T> implements List<T> {
 
 
     @Override
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    public void sort(int start, int end, Comparator<? super T> comparator, Sorts.SortingType sortingType) {
+        Sorts.sort(arr, start, end, (Comparator) comparator, sortingType);
+    }
+
+
+    @Override
     public Object[] toArray() {
         Object[] array = new Object[size];
         System.arraycopy(arr, 0, array, 0, size);
         return array;
+    }
+
+    @Override
+    public final void setData(Object[] objs) {
+        arr = new Object[objs.length];
+        System.arraycopy(objs, 0, arr, 0, objs.length);
+        size = arr.length;
     }
 
 

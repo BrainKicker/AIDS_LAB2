@@ -88,21 +88,26 @@ public interface List<T> {
 
 
     default void sort(Comparator<? super T> comparator) {
-        Sorts.sort(this, comparator);
+        sort(0, size(), comparator, Sorts.SortingType.DEFAULT);
     }
 
     default void sort(int start, int end, Comparator<? super T> comparator) {
-        Sorts.sort(this, 0, size(), comparator);
+        sort(start, end, comparator, Sorts.SortingType.DEFAULT);
     }
 
     default void sort(Comparator<? super T> comparator, Sorts.SortingType sortingType) {
-        Sorts.sort(this, comparator, sortingType);
+        sort(0, size(), comparator, sortingType);
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     default void sort(int start, int end, Comparator<? super T> comparator, Sorts.SortingType sortingType) {
-        Sorts.sort(this, 0, size(), comparator, sortingType);
+        Object[] array = toArray();
+        Sorts.sort(array, start, end, (Comparator) comparator, sortingType);
+        setData(array);
     }
 
 
     Object[] toArray();
+
+    void setData(Object[] objs);
 }
