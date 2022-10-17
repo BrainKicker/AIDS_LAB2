@@ -483,6 +483,7 @@ public final class Sorts {
             insertionSort(array, start, end, comparator);
             return;
         }
+
         int mid = start + ((end - start) >> 1);
         mySort(array, start, mid, comparator);
         mySort(array, mid, end, comparator);
