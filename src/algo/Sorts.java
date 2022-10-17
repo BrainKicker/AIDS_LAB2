@@ -271,18 +271,18 @@ public final class Sorts {
 
     @SuppressWarnings("unchecked")
     public static <T> void stableQuickSort(T[] array, int start, int end, Comparator<? super T> comparator) {
-        Pair<T,Integer>[] subsidiary = new Pair[array.length];
+        Pair<T,Integer>[] subArray = new Pair[array.length];
         for (int i = 0; i < array.length; i++)
-            subsidiary[i] = new Pair<>(array[i], i);
-        Comparator<Pair<T,Integer>> comp = (o1, o2) -> {
+            subArray[i] = new Pair<>(array[i], i);
+        Comparator<Pair<T,Integer>> subComparator = (o1, o2) -> {
             int diff = comparator.compare(o1.first, o2.first);
             if (diff == 0)
                 return o1.second - o2.second;
             return diff;
         };
-        quickSort(subsidiary, start, end, comp);
+        quickSort(subArray, start, end, subComparator);
         for (int i = 0; i < array.length; i++)
-            array[i] = subsidiary[i].first;
+            array[i] = subArray[i].first;
     }
 
 
