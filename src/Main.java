@@ -70,7 +70,6 @@ public class Main {
 //        SortTester.test(Sorts.SortingType.INSERTION_SORT);
         SortTester.test(Sorts.SortingType.MERGE_SORT);
         SortTester.test(Sorts.SortingType.QUICK_SORT);
-        SortTester.test(Sorts.SortingType.STABLE_QUICK_SORT);
         SortTester.test(Sorts.SortingType.HEAP_SORT);
 //        SortTester.test(Sorts.SortingType.TIMSORT);
         SortTester.test(Sorts.SortingType.MYSORT);

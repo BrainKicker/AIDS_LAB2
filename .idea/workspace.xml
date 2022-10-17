@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="570ec12b-bb2d-43d7-af4a-76a6a170c480" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/algo/Sorts.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/algo/Sorts.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -66,7 +67,7 @@
       <updated>1665869302614</updated>
       <workItem from="1665869304443" duration="2633000" />
       <workItem from="1665886973343" duration="20945000" />
-      <workItem from="1665932614707" duration="31838000" />
+      <workItem from="1665932614707" duration="33191000" />
     </task>
     <task id="LOCAL-00001" summary="Refactor.">
       <created>1665950317466</created>
@@ -103,7 +104,14 @@
       <option name="project" value="LOCAL" />
       <updated>1666022718609</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Added new line.">
+      <created>1666026915999</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1666026915999</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -114,6 +122,7 @@
     <MESSAGE value="Added stable quick sort." />
     <MESSAGE value="Refactor names." />
     <MESSAGE value="Refactor heap sort." />
-    <option name="LAST_COMMIT_MESSAGE" value="Refactor heap sort." />
+    <MESSAGE value="Added new line." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added new line." />
   </component>
 </project>

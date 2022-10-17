@@ -21,7 +21,6 @@ public final class Sorts {
         INSERTION_SORT,
         MERGE_SORT,
         QUICK_SORT,
-        STABLE_QUICK_SORT,
         HEAP_SORT,
         TIMSORT,
         MYSORT;
@@ -59,7 +58,6 @@ public final class Sorts {
             case MYSORT -> mySort(array, start, end, comparator);
             case TIMSORT -> timsort(array, start, end, comparator);
             case QUICK_SORT -> quickSort(array, start, end, comparator);
-            case STABLE_QUICK_SORT -> stableQuickSort(array, start, end, comparator);
             case HEAP_SORT -> heapSort(array, start, end, comparator);
             case MERGE_SORT -> mergeSort(array, start, end, comparator);
             case INSERTION_SORT -> insertionSort(array, start, end, comparator);
@@ -262,27 +260,6 @@ public final class Sorts {
         // recursion
         quickSort(array, start, lastMin, comparator);
         quickSort(array, lastMin + 1, end, comparator);
-    }
-
-
-    public static <T> void stableQuickSort(T[] array, Comparator<? super T> comparator) {
-        stableQuickSort(array, 0, array.length, comparator);
-    }
-
-    @SuppressWarnings("unchecked")
-    public static <T> void stableQuickSort(T[] array, int start, int end, Comparator<? super T> comparator) {
-        Pair<T,Integer>[] subArray = new Pair[array.length];
-        for (int i = 0; i < array.length; i++)
-            subArray[i] = new Pair<>(array[i], i);
-        Comparator<Pair<T,Integer>> subComparator = (o1, o2) -> {
-            int diff = comparator.compare(o1.first, o2.first);
-            if (diff == 0)
-                return o1.second - o2.second;
-            return diff;
-        };
-        quickSort(subArray, start, end, subComparator);
-        for (int i = 0; i < array.length; i++)
-            array[i] = subArray[i].first;
     }
 
 
