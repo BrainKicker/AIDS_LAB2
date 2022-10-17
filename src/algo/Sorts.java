@@ -313,11 +313,7 @@ public final class Sorts {
                     ch2 = ch1;
                 if (comparator.compare(get(ch1), get(i)) > 0
                         || comparator.compare(get(ch2), get(i)) > 0) {
-                    int maxChild;
-                    if (comparator.compare(get(ch1), get(ch2)) > 0)
-                        maxChild = ch1;
-                    else
-                        maxChild = ch2;
+                    int maxChild = comparator.compare(get(ch1), get(ch2)) > 0 ? ch1 : ch2;
                     T tmp = get(i);
                     set(i, get(maxChild));
                     set(maxChild, tmp);
