@@ -22,7 +22,8 @@ public final class Sorts {
         MERGE_SORT,
         QUICK_SORT,
         HEAP_SORT,
-        TIMSORT;
+        TIMSORT,
+        MYSORT;
 
         private static SortingType currentDefault = TIMSORT;
 
@@ -54,6 +55,7 @@ public final class Sorts {
         if (sortingType == SortingType.DEFAULT)
             sortingType = SortingType.getCurrentDefault();
         switch (sortingType) {
+            case MYSORT -> mySort(array, start, end, comparator);
             case TIMSORT -> timsort(array, start, end, comparator);
             case QUICK_SORT -> quickSort(array, start, end, comparator);
             case HEAP_SORT -> heapSort(array, start, end, comparator);
@@ -126,7 +128,6 @@ public final class Sorts {
         mergeSort(array, 0, array.length, comparator);
     }
 
-    @SuppressWarnings("unchecked")
     public static <T> void mergeSort(T[] array, int start, int end, Comparator<? super T> comparator) {
         if (end - start <= 1)
             return;
@@ -140,20 +141,88 @@ public final class Sorts {
             int mid = start + ((end - start) >> 1);
             mergeSort(array, start, mid, comparator);
             mergeSort(array, mid, end, comparator);
-            int i = 0, i1 = start, i2 = mid;
-            Object[] buffer = new Object[end-start];
-            while (i1 < mid && i2 < end)
-                if (comparator.compare(array[i1], array[i2]) > 0)
-                    buffer[i++] = array[i2++];
-                else
-                    buffer[i++] = array[i1++];
-            while (i1 < mid)
-                buffer[i++] = array[i1++];
-            while (i2 < end)
-                buffer[i++] = array[i2++];
-            for (int j = start; j < end; ++j)
-                array[j] = (T) buffer[j-start];
+            merge(array, start, mid, end, comparator);
         }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> void merge(T[] array, int start, int mid, int end, Comparator<? super T> comparator) {
+
+        Object[] tmpArr = new Object[mid - start];
+
+        System.arraycopy(array, start, tmpArr, 0, tmpArr.length);
+
+        int index = 0;
+
+        while (start < mid && mid < end)
+            if (comparator.compare((T) tmpArr[index], array[mid]) <= 0)
+                array[start++] = (T) tmpArr[index++];
+            else
+                array[start++] = array[mid++];
+
+        while (start < mid)
+            array[start++] = (T) tmpArr[index++];
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T> void mergeWithGallop(
+            T[] array, int start, int mid, int end, Comparator<? super T> comparator, final int maxGallopCount) {
+
+        Object[] tmpArr = new Object[mid - start];
+
+        System.arraycopy(array, start, tmpArr, 0, tmpArr.length);
+
+        int index = 0;
+
+        int[] currentGallopCount = { 0, 0 };
+
+        while (start < mid && mid < end) {
+
+            if (currentGallopCount[0] == maxGallopCount || currentGallopCount[1] == maxGallopCount) {
+                if (currentGallopCount[0] == maxGallopCount) {
+                    currentGallopCount[0] = 0;
+                    int maxIndex = binaryFindMinGreater(tmpArr, array[mid], index, tmpArr.length, comparator);
+                    while (index < maxIndex)
+                        array[start++] = (T) tmpArr[index++];
+                } else {
+                    currentGallopCount[1] = 0;
+                    int maxIndex = binaryFindMinGreater(array, (T) tmpArr[index], mid, end, comparator);
+                    while (mid < maxIndex)
+                        array[start++] = array[mid++];
+                }
+            } else {
+                if (comparator.compare((T) tmpArr[index], array[mid]) <= 0) {
+                    array[start] = (T) tmpArr[index];
+                    ++index;
+                    currentGallopCount[0] += 1;
+                    currentGallopCount[1] = 0;
+                } else {
+                    array[start] = array[mid];
+                    ++mid;
+                    currentGallopCount[0] = 0;
+                    currentGallopCount[1] += 1;
+                }
+                ++start;
+            }
+        }
+
+        while (start < mid)
+            array[start++] = (T) tmpArr[index++];
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <E, T> int binaryFindMinGreater(E[] arr, T sample, int left, int right, Comparator<? super T> comparator) {
+        if (left >= right)
+            throw new IllegalArgumentException();
+        while (right - left > 1) {
+            int mid = left + ((right - left) >> 1);
+            int diff = comparator.compare((T) arr[mid], sample);
+            if (diff <= 0)
+                left = mid;
+            else
+                right = mid;
+        }
+        return comparator.compare((T) arr[left], sample) > 0 ? left : right;
     }
 
 
@@ -280,9 +349,9 @@ public final class Sorts {
 
         class TimsortClass {
 
-            final int MAX_MINRUN = 64;
+            final static int MAX_MINRUN = 64;
 
-            final int GALLOP_COUNT = 7;
+            final static int MAX_GALLOP_COUNT = 7;
 
             int calculateMinrun(int n) {
                 int r = 0;
@@ -291,59 +360,6 @@ public final class Sorts {
                     n >>= 1;
                 }
                 return n + r;
-            }
-
-            void merge(int start, int mid, int end) {
-
-                Object[] tmpArr = new Object[mid - start];
-
-                System.arraycopy(array, start, tmpArr, 0, tmpArr.length);
-
-                int index = 0;
-
-                int[] currentGallopCount = { 0, 0 };
-
-                while (start < mid && mid < end) {
-                    if (comparator.compare((T) tmpArr[index], array[mid]) <= 0) {
-                        array[start] = (T) tmpArr[index];
-                        ++index;
-                        currentGallopCount[0] += 1;
-                        currentGallopCount[1] = 0;
-                    } else {
-                        array[start] = array[mid];
-                        ++mid;
-                        currentGallopCount[0] = 0;
-                        currentGallopCount[1] += 1;
-                    }
-                    ++start;
-
-                    if (currentGallopCount[0] == GALLOP_COUNT || currentGallopCount[1] == GALLOP_COUNT) {
-                        if (currentGallopCount[0] == GALLOP_COUNT) {
-                            int maxIndex = binarySearch(tmpArr, array[mid], index, tmpArr.length);
-                            while (index < maxIndex)
-                                array[start++] = (T) tmpArr[index++];
-                        } else {
-                            int maxIndex = binarySearch(array, (T) tmpArr[index], mid, end);
-                            while (mid < maxIndex)
-                                array[start++] = array[mid++];
-                        }
-                    }
-                }
-
-                while (start < mid)
-                    array[start++] = (T) tmpArr[index++];
-            }
-
-            <E> int binarySearch(E[] arr, T sample, int left, int right) {
-                while (right - left > 1) {
-                    int mid = left + ((right - left) >> 1);
-                    int diff = comparator.compare((T) arr[mid], sample);
-                    if (diff <= 0)
-                        left = mid;
-                    else
-                        right = mid;
-                }
-                return comparator.compare((T) arr[left], sample) > 0 ? left : right;
             }
         }
 
@@ -378,7 +394,7 @@ public final class Sorts {
                 }
             }
 
-            if (curRunEnd < end - 1 && curRunEnd - curRunStart < minrun)
+            if (curRunEnd - curRunStart < minrun)
                 curRunEnd = Math.min(curRunStart + minrun, end);
 
             // next element existing required at next iteration
@@ -395,11 +411,11 @@ public final class Sorts {
                 Pair<Integer,Integer> X = indexes.get(indexes.size() - 3);
                 if (Z.second <= Y.second + X.second || Y.second <= X.second) {
                     if (Z.second > X.second) {
-                        timsortClass.merge(X.first, Y.first, Y.first + Y.second);
+                        mergeWithGallop(array, X.first, Y.first, Y.first + Y.second, comparator, TimsortClass.MAX_GALLOP_COUNT);
                         indexes.set(indexes.size() - 3, new Pair<>(X.first, X.second + Y.second));
                         indexes.remove(indexes.size() - 2);
                     } else {
-                        timsortClass.merge(Y.first, Z.first, Z.first + Z.second);
+                        mergeWithGallop(array, Y.first, Z.first, Z.first + Z.second, comparator, TimsortClass.MAX_GALLOP_COUNT);
                         indexes.set(indexes.size() - 2, new Pair<>(Y.first, Y.second + Z.second));
                         indexes.removeLast();
                     }
@@ -417,21 +433,40 @@ public final class Sorts {
             if (indexes.size() < 2)
                 break;
             if (indexes.size() == 2) {
-                timsortClass.merge(start, indexes.getLast().first, end);
+                mergeWithGallop(array, start, indexes.getLast().first, end, comparator, TimsortClass.MAX_GALLOP_COUNT);
                 break;
             }
             Pair<Integer,Integer> Z = indexes.getLast();
             Pair<Integer,Integer> Y = indexes.get(indexes.size() - 2);
             Pair<Integer,Integer> X = indexes.get(indexes.size() - 3);
             if (Z.second > X.second) {
-                timsortClass.merge(X.first, Y.first, Y.first + Y.second);
+                mergeWithGallop(array, X.first, Y.first, Y.first + Y.second, comparator, TimsortClass.MAX_GALLOP_COUNT);
                 indexes.set(indexes.size() - 3, new Pair<>(X.first, X.second + Y.second));
                 indexes.remove(indexes.size() - 2);
             } else {
-                timsortClass.merge(Y.first, Z.first, Z.first + Z.second);
+                mergeWithGallop(array, Y.first, Z.first, Z.first + Z.second, comparator, TimsortClass.MAX_GALLOP_COUNT);
                 indexes.set(indexes.size() - 2, new Pair<>(Y.first, Y.second + Z.second));
                 indexes.removeLast();
             }
         }
+    }
+
+
+    public static <T> void mySort(T[] array, Comparator<? super T> comparator) {
+        mySort(array, 0, array.length, comparator);
+    }
+
+    public static <T> void mySort(T[] array, int start, int end, Comparator<? super T> comparator) {
+
+        final int MIN_LENGTH = 32;
+
+        if (end - start <= MIN_LENGTH) {
+            insertionSort(array, start, end, comparator);
+            return;
+        }
+        int mid = start + ((end - start) >> 1);
+        mySort(array, start, mid, comparator);
+        mySort(array, mid, end, comparator);
+        merge(array, start, mid, end, comparator);
     }
 }
