@@ -113,13 +113,12 @@ public final class Sorts {
 
     public static <T> void insertionSort(T[] array, int start, int end, Comparator<? super T> comparator) {
         for (int i = start + 1; i < end; i++) {
-            for (int j = i; j > start; j--) {
-                if (comparator.compare(array[j], array[j-1]) < 0) {
-                    T tmp = array[j];
-                    array[j] = array[j-1];
-                    array[j-1] = tmp;
-                }
-            }
+            T cur = array[i];
+            int indexToPaste = i;
+            while (indexToPaste > start && comparator.compare(cur, array[indexToPaste-1]) < 0)
+                --indexToPaste;
+            System.arraycopy(array, indexToPaste, array, indexToPaste + 1, i - indexToPaste);
+            array[indexToPaste] = cur;
         }
     }
 
@@ -328,14 +327,14 @@ public final class Sorts {
 
 
     /**
-     * <a href="https://en.wikipedia.org/wiki/Timsort">Timsort</a> for a array.
+     * <a href="https://en.wikipedia.org/wiki/Timsort">Timsort</a> for an array.
      */
     public static <T> void timsort(T[] array, Comparator<? super T> comparator) {
         timsort(array, 0, array.length, comparator);
     }
 
     /**
-     * <a href="https://en.wikipedia.org/wiki/Timsort">Timsort</a> for a array from start inclusive to end exclusive: [start, end).
+     * <a href="https://en.wikipedia.org/wiki/Timsort">Timsort</a> for an array from start inclusive to end exclusive: [start, end).
      */
     @SuppressWarnings("unchecked")
     public static <T> void timsort(T[] array, int start, int end, Comparator<? super T> comparator) {
